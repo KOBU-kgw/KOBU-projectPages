@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOBU Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #06060b;
+    --bg-card: #0c0c14;
+    --bg-card-hover: #10101c;
+    --border: #1a1a2e;
+    --border-hover: #4a6cf7;
+    --blue-primary: #4a6cf7;
+    --blue-light: #6b8cff;
+    --blue-deep: #3555d1;
+    --blue-subtle: #2a3fa0;
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888a0;
+    --text-muted: #555566;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Noto Sans JP', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 6, 11, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  nav.scrolled { border-bottom-color: var(--border); }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 3px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--blue-primary); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 24px 80px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(74,108,247,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero h1 {
+    font-family: var(--mono);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: 12px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero h1 .dot {
+    color: var(--blue-primary);
+  }
+
+  .hero .tagline {
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .hero .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: var(--blue-primary);
+    margin: 12px auto 0;
+    opacity: 0.4;
+    animation: pulse 2s ease infinite;
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 120px 24px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue-primary);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .section-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    max-width: 600px;
+    line-height: 2;
+  }
+
+  /* ===== ABOUT ===== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .about-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .about-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+  }
+
+  .about-card .card-icon {
+    font-family: var(--mono);
+    font-size: 20px;
+    color: var(--blue-primary);
+    margin-bottom: 16px;
+  }
+
+  .about-card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .about-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+
+  /* ===== PROJECTS ===== */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    background: var(--bg-card-hover);
+  }
+
+  .project-card .card-header {
+    padding: 32px 28px 20px;
+  }
+
+  .project-card .card-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .project-card .card-status .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #34d399;
+    animation: blink 2s ease infinite;
+  }
+
+  .project-card .card-status .status-dot.coming {
+    background: var(--text-muted);
+    animation: none;
+  }
+
+  .project-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .project-card .card-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .project-card .card-body {
+    padding: 0 28px 28px;
+  }
+
+  .project-card .card-body p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+  }
+
+  .project-card .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 28px 24px;
+  }
+
+  .project-card .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--blue-light);
+    background: rgba(74, 108, 247, 0.1);
+    border: 1px solid rgba(74, 108, 247, 0.2);
+    border-radius: 4px;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+  }
+
+  /* Coming Soon card */
+  .project-card.coming-soon {
+    border-style: dashed;
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .project-card.coming-soon:hover {
+    transform: none;
+    border-color: var(--border);
+    background: var(--bg-card);
+  }
+
+  /* ===== TECH STACK ===== */
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .tech-item {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 18px;
+    letter-spacing: 1px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .tech-item:hover {
+    border-color: var(--blue-primary);
+    color: var(--blue-light);
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-primary);
+    text-decoration: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 28px;
+    letter-spacing: 1px;
+    transition: border-color 0.3s, background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .contact-link:hover {
+    border-color: var(--blue-primary);
+    background: var(--bg-card-hover);
+  }
+
+  .contact-link .arrow {
+    color: var(--blue-primary);
+    transition: transform 0.3s;
+  }
+
+  .contact-link:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    max-width: 960px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.1; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 80px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero h1 { letter-spacing: 6px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .contact-links { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <svg width="28" height="28" viewBox="16 3 80 114" fill="none">
+      <line x1="30" y1="15" x2="30" y2="105" stroke="#4a6cf7" stroke-width="3"/>
+      <line x1="30" y1="58" x2="90" y2="15" stroke="#6b8cff" stroke-width="3"/>
+      <line x1="30" y1="58" x2="90" y2="105" stroke="#6b8cff" stroke-width="3"/>
+      <line x1="55" y1="40" x2="70" y2="72" stroke="#3555d1" stroke-width="2" opacity="0.5"/>
+      <circle cx="30" cy="15" r="6" fill="#4a6cf7"/>
+      <circle cx="30" cy="58" r="7" fill="#4a6cf7"/>
+      <circle cx="30" cy="105" r="6" fill="#4a6cf7"/>
+      <circle cx="90" cy="15" r="6" fill="#6b8cff"/>
+      <circle cx="90" cy="105" r="6" fill="#6b8cff"/>
+      <circle cx="55" cy="40" r="4" fill="#3555d1" opacity="0.6"/>
+      <circle cx="70" cy="72" r="4" fill="#3555d1" opacity="0.6"/>
+    </svg>
+    <span>KOBU</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-logo">
+    <svg width="100" height="100" viewBox="16 3 80 114" fill="none">
+      <line x1="30" y1="15" x2="30" y2="105" stroke="#4a6cf7" stroke-width="3"/>
+      <line x1="30" y1="58" x2="90" y2="15" stroke="#6b8cff" stroke-width="3"/>
+      <line x1="30" y1="58" x2="90" y2="105" stroke="#6b8cff" stroke-width="3"/>
+      <line x1="55" y1="40" x2="70" y2="72" stroke="#3555d1" stroke-width="2" opacity="0.5"/>
+      <circle cx="30" cy="15" r="6" fill="#4a6cf7"/>
+      <circle cx="30" cy="58" r="7" fill="#4a6cf7"/>
+      <circle cx="30" cy="105" r="6" fill="#4a6cf7"/>
+      <circle cx="90" cy="15" r="6" fill="#6b8cff"/>
+      <circle cx="90" cy="105" r="6" fill="#6b8cff"/>
+      <circle cx="55" cy="40" r="4" fill="#3555d1" opacity="0.6"/>
+      <circle cx="70" cy="72" r="4" fill="#3555d1" opacity="0.6"/>
+      <circle cx="30" cy="58" r="12" fill="#4a6cf7" opacity="0.15"/>
+    </svg>
+  </div>
+  <h1>KOBU<span class="dot">.</span></h1>
+  <p class="tagline">アイデアを、動くプロダクトに。</p>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<div class="divider"></div>
+<section id="about" class="fade-in">
+  <div class="section-label">// About</div>
+  <h2 class="section-title">KOBU Projectとは</h2>
+  <p class="section-desc">
+    香川を拠点に、iOSアプリ・Webサービス・クロスプラットフォームアプリの企画・設計・開発を行うプロジェクト。アイデアをプロダクトとして形にし、地域のつながりをテクノロジーで再設計することを目指しています。
+  </p>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="card-icon">&lt;/&gt;</div>
+      <h3>フルスタック開発</h3>
+      <p>iOS / Flutter / Web。フロントからバックエンド、インフラまで一貫して設計・実装します。</p>
+    </div>
+    <div class="about-card">
+      <div class="card-icon">⇄</div>
+      <h3>地域 × テクノロジー</h3>
+      <p>大学・地域コミュニティの課題をソフトウェアで解決する。技術を届ける先を常に意識します。</p>
+    </div>
+    <div class="about-card">
+      <div class="card-icon">▲</div>
+      <h3>プロダクト志向</h3>
+      <p>作って終わりではなく、リリースし、ユーザーに届け、改善し続ける。動くものが全て。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<div class="divider"></div>
+<section id="projects" class="fade-in">
+  <div class="section-label">// Projects</div>
+  <h2 class="section-title">プロダクト</h2>
+  <p class="section-desc">
+    KOBU Projectが開発・運営するプロダクト。
+  </p>
+
+  <div class="projects-grid">
+
+    <!-- KobuLink -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-status">
+          <span class="status-dot"></span>
+          Active
+        </div>
+        <h3>KobuLink</h3>
+        <div class="card-sub">Community SNS for Kagawa Univ.</div>
+      </div>
+      <div class="card-body">
+        <p>香川大学の学生のためのコミュニティSNS。タイムライン・通知・ニュースボット機能を搭載し、学内のつながりを活性化します。</p>
+      </div>
+      <div class="card-tags">
+        <span class="tag">SwiftUI</span>
+        <span class="tag">Firebase</span>
+        <span class="tag">Cloud Functions</span>
+        <span class="tag">iOS</span>
+      </div>
+    </div>
+
+    <!-- Coming Soon -->
+    <div class="project-card coming-soon">
+      <div class="card-header">
+        <div class="card-status">
+          <span class="status-dot coming"></span>
+          Coming Soon
+        </div>
+        <h3>Next Project</h3>
+        <div class="card-sub">準備中</div>
+      </div>
+      <div class="card-body">
+        <p>新しいプロダクトを構想中です。</p>
+      </div>
+      <div class="card-tags">
+        <span class="tag">TBD</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<div class="divider"></div>
+<section id="stack" class="fade-in">
+  <div class="section-label">// Tech Stack</div>
+  <h2 class="section-title">技術スタック</h2>
+  <p class="section-desc">
+    KOBU Projectで使用する主な技術。
+  </p>
+
+  <div class="tech-list">
+    <span class="tech-item">Swift / SwiftUI</span>
+    <span class="tech-item">Flutter</span>
+    <span class="tech-item">TypeScript</span>
+    <span class="tech-item">React</span>
+    <span class="tech-item">Firebase</span>
+    <span class="tech-item">Cloud Functions</span>
+    <span class="tech-item">Cloudflare Workers</span>
+    <span class="tech-item">Xcode</span>
+    <span class="tech-item">Git / GitHub</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="divider"></div>
+<section id="contact" class="fade-in">
+  <div class="section-label">// Contact</div>
+  <h2 class="section-title">お問い合わせ</h2>
+  <p class="section-desc">
+    プロジェクトへのお問い合わせ・コラボレーションのご相談はこちらから。
+  </p>
+
+  <div class="contact-links">
+    <a href="#" class="contact-link">
+      GitHub <span class="arrow">→</span>
+    </a>
+    <a href="#" class="contact-link">
+      X (Twitter) <span class="arrow">→</span>
+    </a>
+    <a href="#" class="contact-link">
+      Mail <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 KOBU Project</p>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
