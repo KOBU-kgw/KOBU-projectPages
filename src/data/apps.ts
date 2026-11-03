@@ -56,14 +56,16 @@ export const apps: App[] = [
   {
     slug: 'rakutan',
     name: '楽単ナビ',
-    summary: '香川大学のシラバスと学生レビューを統合した履修検索サイト',
+    summary: '香川大学のシラバスと学生レビューを統合した履修検索サイト（非公式）',
     description:
-      'シラバスを自動で集め、学生のレビューと合わせて検索できます。気になる授業はLINEで友だちにシェアできます。',
+      '空きコマをタップすると、そのコマの授業が単位の取りやすさ順に並びます。シラバスは自動で集め、学生の匿名レビューと合わせて検索できます。',
     statuses: [{ kind: 'public', label: '公開中（Web）' }],
     platforms: ['Web'],
     stack: ['Web', 'LINE連携'],
     links: { web: 'https://rakutan.kobu.kagawa.jp' },
-    note: '履修が決まったら、課題の管理は OIKOMI で。',
+    detailPage: '/apps/rakutan/',
+    screenshots: ['/apps/rakutan/akikoma.webp', '/apps/rakutan/list.webp'],
+    note: '香大生が作った非公式サイトです。香川大学とは関係ありません。',
     featured: true,
   },
   {
