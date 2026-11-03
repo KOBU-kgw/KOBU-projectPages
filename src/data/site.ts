@@ -9,6 +9,7 @@ export const site = {
   description:
     '香川を拠点に、iOS・Android・Webアプリの開発と、AIを使った業務自動化を行うKOBU-Projectの公式サイトです。',
   representative: 'あっきー',
+  representativeAffiliation: '香川大学農学部',
   foundedAt: '2026-07-01',
   foundedLabel: '2026年7月1日',
   region: '香川県',

@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import { apps } from '../../data/apps';
+
+interface Work {
+  name: string;
+  kind: string;
+  icon?: string;
+  problem: string;
+  points: string[];
+  stack: string[];
+  link?: { href: string; label: string };
+}
+
+const iconOf = (slug: string) => apps.find((a) => a.slug === slug)?.icon;
+
+const works: Work[] = [
+  {
+    name: 'OIKOMI',
+    kind: 'iOSアプリ（Android版準備中）',
+    icon: iconOf('oikomi'),
+    problem: '残り日数だけで課題を管理すると「まだ1週間ある」と油断して、時間がかかる・やりたくない課題ほど手遅れになる。',
+    points: [
+      '所要時間・やりたくなさ・締切までの余裕から「心理的なヤバさ」を計算する独自指標（TGL）を設計',
+      'サーバーを持たず、データはすべて端末内のデータベースに保存。アカウント不要・オフラインで動作',
+      '通知は決まった時刻ではなく、課題の状態が変わったときだけ端末内で出す',
+      '削除・完了を間違えても5秒以内なら取り消せる操作設計',
+    ],
+    stack: ['Flutter', 'Isar', 'iOS', 'Android'],
+    link: { href: '/apps/oikomi/', label: 'OIKOMIを見る' },
+  },
+  {
+    name: '楽単ナビ',
+    kind: 'Webサービス（香川大学生向け・非公式）',
+    icon: iconOf('rakutan'),
+    problem: '履修登録のとき、空いているコマにどんな授業があり、どれが自分に合うかを調べるのに手間がかかる。',
+    points: [
+      '公開シラバス約2,500科目をクラウド上で定期的に自動取得。取得元に負荷をかけないよう、間隔をあけて1件ずつ取得',
+      '空きコマをタップするだけで、その時間の授業を単位の取りやすさ順に表示',
+      '科目データを軽い検索用データにまとめて配信し、表記ゆれに強い全文検索をブラウザ側で実現',
+      '匿名レビュー、不適切な投稿の通報と確認の仕組み、科目ページごとのSNS共有表示（OGP）まで運用',
+    ],
+    stack: ['Flutter Web', 'Firebase', 'Cloud Functions', 'Cloud Tasks'],
+    link: { href: '/apps/rakutan/', label: '楽単ナビを見る' },
+  },
+  {
+    name: 'KobuLink',
+    kind: 'iOSアプリ（メンバー限定配布）',
+    icon: iconOf('kobulink'),
+    problem: '香川大学起業部の部内のつながりを、もっと活発にしたい。',
+    points: [
+      'タイムラインと通知を備えた部内専用のコミュニティSNSを開発',
+      'TestFlightで部員に配布して運用',
+      '部員が本当に必要とするものから見直し、再設計中',
+    ],
+    stack: ['SwiftUI', 'Firebase', 'Cloud Functions'],
+  },
+  {
+    // TODO: 正式なアプリ名・URLがわかったら追記する
+    name: '学食メニュー提案アプリ',
+    kind: 'LINEから開くWebアプリ',
+    problem: '学食のメニュー選びを手助けしたい。',
+    points: ['LINEから開いてすぐ使えるよう、LINEのミニアプリ（LIFF）として実装'],
+    stack: ['React', 'Cloudflare Pages', 'LINE LIFF'],
+  },
+  {
+    name: '顕微鏡画像の解析ツール',
+    kind: '学内向けWebツール',
+    // TODO: 何を解析するツールか、具体的に書けるなら追記する
+    problem: '顕微鏡画像の解析を、誰でもブラウザから手軽にできるようにしたい。',
+    points: ['画像処理をブラウザから使えるツールにまとめ、学年の学生が利用'],
+    stack: ['Python', 'Streamlit', 'OpenCV'],
+  },
+];
+---
+<Base
+  title="開発事例"
+  description="KOBU-Projectが開発したアプリ・ツールの事例です。課題管理アプリOIKOMI、香川大学の履修検索サイト楽単ナビなど。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// Works</div>
+      <h1 class="section-title">開発事例</h1>
+      <p class="section-desc">これまでに開発したアプリ・ツールと、それぞれで工夫した点です。</p>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container works">
+      {works.map((w) => (
+        <article class="work">
+          <header>
+            {w.icon
+              ? <img src={w.icon} alt="" width="52" height="52" loading="lazy" />
+              : <div class="ph" aria-hidden="true">{w.name.slice(0, 1)}</div>}
+            <div>
+              <h2>{w.name}</h2>
+              <p class="kind">{w.kind}</p>
+            </div>
+          </header>
+          <dl>
+            <dt>課題</dt>
+            <dd>{w.problem}</dd>
+            <dt>工夫したこと</dt>
+            <dd><ul>{w.points.map((p) => <li>{p}</li>)}</ul></dd>
+          </dl>
+          <div class="tags">{w.stack.map((s) => <span class="tag">{s}</span>)}</div>
+          {w.link && <a class="more" href={w.link.href}>{w.link.label} →</a>}
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .body { padding-bottom: 112px; }
+  .works { display: grid; gap: 20px; }
+  .work {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  header { display: flex; gap: 16px; align-items: center; margin-bottom: 20px; }
+  header img, .ph { width: 52px; height: 52px; border-radius: 13px; flex-shrink: 0; }
+  .ph {
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue-deep), var(--blue-light));
+  }
+  h2 { font-size: 20px; font-weight: 700; line-height: 1.3; }
+  .kind { font-size: 13px; color: var(--text-secondary); }
+  dl { display: grid; grid-template-columns: 110px 1fr; gap: 12px 20px; margin-bottom: 20px; }
+  dt { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; padding-top: 3px; }
+  dd { font-size: 14px; color: var(--text-secondary); line-height: 1.9; }
+  dd ul { padding-left: 1.2em; }
+  dd li + li { margin-top: 4px; }
+  .more { display: inline-block; margin-top: 16px; font-size: 14px; text-decoration: none; }
+  @media (max-width: 640px) {
+    .work { padding: 22px; }
+    dl { grid-template-columns: 1fr; gap: 4px; }
+    dd { margin-bottom: 10px; }
+  }
+</style>
