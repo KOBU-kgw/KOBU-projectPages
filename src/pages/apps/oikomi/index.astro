@@ -31,10 +31,8 @@ const faqs = [
     a: '現在テスト中で、近日公開予定です。公開時はこのページでお知らせします。',
   },
   {
-    q: '料金はかかりますか？',
-    // TODO: 課金の現状（買い切り／サブスク／無料）を確認して書き換える
-    a: '【要確認】',
-    todo: true,
+    q: 'データはどこに保存されますか？',
+    a: 'すべてお使いの端末の中に保存されます。サーバーへの送信やクラウド同期はなく、広告や利用状況の解析もありません。',
   },
   {
     q: '不具合を見つけた・要望がある場合は？',
@@ -106,7 +104,7 @@ const faqs = [
         {faqs.map((f) => (
           <details>
             <summary>{f.q}</summary>
-            <p>{f.todo ? <span class="todo">{f.a}</span> : f.a}</p>
+            <p>{f.a}</p>
           </details>
         ))}
       </div>
@@ -121,6 +119,7 @@ const faqs = [
       <div class="section-foot">
         <a class="btn btn-primary" href="/apps/oikomi/support/">サポートページ <span class="arrow">→</span></a>
         <a class="btn btn-secondary" href="/apps/oikomi/privacy/">プライバシーポリシー</a>
+        <a class="btn btn-secondary" href="/apps/oikomi/terms/">利用規約</a>
       </div>
     </div>
   </section>

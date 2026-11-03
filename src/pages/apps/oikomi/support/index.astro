@@ -1,49 +1,93 @@
 ---
 import Base from '../../../../layouts/Base.astro';
 import { site } from '../../../../data/site';
+
+// 旧ページ（kobu-kgw.github.io/OIKOMIapp/support.html）のFAQを引き継いでいます。
+const levels = [
+  { name: '平和', text: '時間に余裕あり。気楽にいこう' },
+  { name: 'そのうちやろ', text: '後回しの危険信号' },
+  { name: 'そろそろ現実', text: '本気を出す時間' },
+  { name: '逃げ場なし', text: '詰んでる。今やれ' },
+  { name: '戦争', text: '徹夜覚悟。戦場へ' },
+];
 ---
 <Base
   title="OIKOMI サポート"
-  description="課題管理アプリOIKOMIのサポートページです。使い方の質問・不具合の報告・ご要望はこちらから。"
+  description="課題管理アプリOIKOMIのサポートページです。よくある質問と、不具合の報告・ご要望の送り先。"
 >
   <section class="page-head">
     <div class="container">
       <div class="section-label"><a href="/apps/oikomi/">// OIKOMI</a> / Support</div>
       <h1 class="section-title">OIKOMI サポート</h1>
-      <p class="section-desc">使い方の質問、不具合の報告、機能のご要望を受け付けています。</p>
+      <p class="section-desc">よくある質問と、お問い合わせ方法をまとめています。</p>
     </div>
   </section>
 
   <section class="body">
     <div class="container prose">
-      <h2>お問い合わせ方法</h2>
-      <p>次のどちらかの方法でご連絡ください。通常、数日以内に返信します。</p>
+      <h2>よくある質問</h2>
+
+      <h3>基本的な使い方は？</h3>
+      <p>3ステップで始められます。</p>
+      <ol>
+        <li>課題名を入力する</li>
+        <li>所要時間（15分〜24時間）と、やりたくなさ（1〜10）をダイヤルで選ぶ</li>
+        <li>自動で計算された「ヤバさ指数」で、優先度を確認する</li>
+      </ol>
+
+      <h3>5段階の状態とは？</h3>
+      <p>課題のヤバさを、次の5段階で表示します。</p>
       <ul>
-        <li><strong>お問い合わせフォーム：</strong><a href="/contact/?type=app-support">フォームを開く</a>（種類で「アプリについて」を選んでください）</li>
-        <li><strong>メール：</strong><a href={`mailto:${site.email}?subject=${encodeURIComponent('[OIKOMI] お問い合わせ')}`}>{site.email}</a></li>
+        {levels.map((l) => <li><strong>{l.name}</strong>：{l.text}</li>)}
       </ul>
 
-      <h2>不具合を報告いただくとき</h2>
-      <p>次の情報を添えていただくと、原因を早く特定できます。</p>
+      <h3>データはどこに保存されますか？</h3>
+      <p>すべて、お使いの端末の中に保存されます。サーバーへの送信やクラウド同期はありません。</p>
+
+      <h3>複数の端末でデータを同期できますか？</h3>
+      <p>現在、同期機能はありません。端末ごとに別々のデータになります。</p>
+
+      <h3>通知が届きません</h3>
       <ul>
-        <li>お使いの端末（例：iPhone 15）とOSのバージョン（例：iOS 26.1）</li>
-        <li>OIKOMIのバージョン（設定画面、またはApp Storeのアプリページで確認できます）</li>
+        <li>iPhoneの「設定」→「OIKOMI」→「通知」が許可になっているか確認してください</li>
+        <li>「サウンド」「バッジ」もオンになっているか確認してください</li>
+        <li>集中モードがオンのときは、通知が表示されないことがあります</li>
+        <li>通知は課題の状態が変わったときに届きます。締切がまだ先だと、しばらく届かないことがあります</li>
+      </ul>
+
+      <h3>動作が重い・遅い</h3>
+      <ul>
+        <li>アプリを完全に終了して、もう一度開く</li>
+        <li>端末を再起動する</li>
+        <li>アプリを最新版にアップデートする</li>
+        <li>課題が数千件以上ある場合は、古い課題を削除する</li>
+      </ul>
+
+      <h3>削除した課題は元に戻せますか？</h3>
+      <p>現在、削除した課題を元に戻す機能はありません。削除する前によくご確認ください。</p>
+
+      <h3>対応しているOSは？</h3>
+      <p>iOS 14.0 以上に対応しています。Android版は現在テスト中で、近日公開予定です。</p>
+
+      <h2>お問い合わせ</h2>
+      <p>不具合の報告、機能のご要望、その他のご質問は、次のどちらかでお送りください。</p>
+      <ul>
+        <li><strong>お問い合わせフォーム：</strong><a href="/contact/?type=app-support">フォームを開く</a>（種類は「アプリについて」を選んでください）</li>
+        <li><strong>メール：</strong><a href={`mailto:${site.email}?subject=${encodeURIComponent('[OIKOMI] お問い合わせ')}`}>{site.email}</a></li>
+      </ul>
+      <p>不具合のときは、次の情報を添えていただくと原因を早く特定できます。</p>
+      <ul>
+        <li>お使いの端末（例：iPhone 15）とOSのバージョン</li>
+        <li>OIKOMIのバージョン</li>
         <li>どの画面で、何をしたときに起きたか</li>
         <li>可能であれば、スクリーンショット</li>
       </ul>
 
-      <h2>よくある質問</h2>
-      <h3>通知が届きません</h3>
-      <p>
-        iPhoneの「設定」→「通知」→「OIKOMI」で、通知が許可されているかご確認ください。集中モードがオンのときも通知が表示されないことがあります。
-      </p>
-      <h3>Android版はありますか？</h3>
-      <p>現在テスト中で、近日公開予定です。</p>
-
       <h2>関連ページ</h2>
       <ul>
         <li><a href="/apps/oikomi/">OIKOMI について</a></li>
-        <li><a href="/apps/oikomi/privacy/">OIKOMI プライバシーポリシー</a></li>
+        <li><a href="/apps/oikomi/privacy/">プライバシーポリシー</a></li>
+        <li><a href="/apps/oikomi/terms/">利用規約</a></li>
       </ul>
 
       <p class="meta">運営：{site.name}（代表：{site.representative}）</p>
