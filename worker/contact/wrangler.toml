@@ -1,0 +1,15 @@
+name = "kobu-contact"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# フォームを置くサイトのURL（カンマ区切りで複数可）
+ALLOWED_ORIGINS = "https://www.kobu.kagawa.jp,https://kobu.kagawa.jp"
+# 届いたお問い合わせの受け取り先
+MAIL_TO = "kobu.project.kgw@gmail.com"
+# 送信元。Resend で認証したドメインのアドレスにする
+MAIL_FROM = "KOBU-Project <contact@kobu.kagawa.jp>"
+
+# 秘密の値は wrangler.toml に書かず、次のコマンドで登録します。
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put RESEND_API_KEY

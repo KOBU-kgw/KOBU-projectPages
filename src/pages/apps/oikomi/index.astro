@@ -1,0 +1,165 @@
+---
+import Base from '../../../layouts/Base.astro';
+import StatusChip from '../../../components/StatusChip.astro';
+import StoreLinks from '../../../components/StoreLinks.astro';
+import { apps } from '../../../data/apps';
+
+const app = apps.find((a) => a.slug === 'oikomi')!;
+const screens = app.screenshots ?? [];
+
+const features = [
+  {
+    num: '01',
+    title: '3ステップで「ヤバさ」を数値化',
+    text: '課題名を入れ、所要時間と「やりたくなさ」を選ぶだけ。残り日数だけでは見えない心理的なヤバさを、独自のヤバさ指数（TGL）で計算します。',
+  },
+  {
+    num: '02',
+    title: '5段階のラベルでひと目でわかる',
+    text: '平和 → そのうちやろ → そろそろ現実 → 逃げ場なし → 戦争。今どの課題が危ないかがすぐわかります。',
+  },
+  {
+    num: '03',
+    title: '状態が変わったら通知',
+    text: '課題のヤバさの段階が上がったら通知でお知らせ。データは端末の中だけに保存され、外部に送られることはありません。',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Android版はありますか？',
+    a: '現在テスト中で、近日公開予定です。公開時はこのページでお知らせします。',
+  },
+  {
+    q: '料金はかかりますか？',
+    // TODO: 課金の現状（買い切り／サブスク／無料）を確認して書き換える
+    a: '【要確認】',
+    todo: true,
+  },
+  {
+    q: '不具合を見つけた・要望がある場合は？',
+    a: 'サポートページからご連絡ください。いただいた内容は今後の改善に活かします。',
+  },
+];
+---
+<Base
+  title="OIKOMI｜課題の“本当のヤバさ”がわかるタスク管理アプリ"
+  description="「あと3日あるし…」その油断が徹夜地獄に。OIKOMIは、締切までの心理的なヤバさを独自指標TGLで数値化し、5段階のラベルで知らせる大学生向けタスク管理アプリです。"
+>
+  <section class="page-head app-hero">
+    <div class="container hero-inner">
+      <div>
+        <div class="section-label"><a href="/apps/">// Apps</a> / OIKOMI</div>
+        <h1>OIKOMI</h1>
+        <p class="lead">
+          「あと3日あるし…」<br />その油断が、あなたを徹夜地獄へ。
+        </p>
+        <p class="section-desc">
+          大学生の「本当にヤバい課題」を瞬時に判定するタスク管理アプリ。締切までの心理的なヤバさを独自指標「TGL」で数値化し、5段階のラベルで知らせます。
+        </p>
+        <div class="chips">{app.statuses.map((s) => <StatusChip status={s} />)}</div>
+        <div class="store">
+          <StoreLinks links={app.links} name={app.name} />
+        </div>
+      </div>
+      {app.icon
+        ? <img class="big-icon" src={app.icon} alt="OIKOMIのアイコン" width="160" height="160" />
+        : <div class="big-icon placeholder" aria-hidden="true">O</div>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// Features</div>
+      <h2 class="section-title">できること</h2>
+      <div class="grid">
+        {features.map((f) => (
+          <div class="card">
+            <div class="card-icon">{f.num}</div>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {screens.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-label">// Screenshots</div>
+        <h2 class="section-title">画面イメージ</h2>
+        <div class="screens">
+          {screens.map((src, i) => (
+            <img src={src} alt={`OIKOMIの画面 ${i + 1}`} loading="lazy" width="280" height="606" />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// FAQ</div>
+      <h2 class="section-title">よくある質問</h2>
+      <div class="faq">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.todo ? <span class="todo">{f.a}</span> : f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// Support</div>
+      <h2 class="section-title">サポート・お問い合わせ</h2>
+      <p class="section-desc">使い方の質問、不具合の報告、ご要望はサポートページからどうぞ。</p>
+      <div class="section-foot">
+        <a class="btn btn-primary" href="/apps/oikomi/support/">サポートページ <span class="arrow">→</span></a>
+        <a class="btn btn-secondary" href="/apps/oikomi/privacy/">プライバシーポリシー</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section-label a { color: inherit; text-decoration: none; }
+  .section-label a:hover { text-decoration: underline; }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(40px, 7vw, 64px);
+    letter-spacing: 6px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .lead { font-size: clamp(18px, 2.6vw, 24px); font-weight: 500; line-height: 1.6; margin-bottom: 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .store { margin-top: 20px; }
+  .big-icon { width: 160px; height: 160px; border-radius: 36px; }
+  .big-icon.placeholder {
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue-deep), var(--blue-light));
+  }
+  .screens { display: flex; gap: 16px; overflow-x: auto; margin-top: 40px; padding-bottom: 8px; }
+  .screens img { width: 240px; flex-shrink: 0; border-radius: 16px; border: 1px solid var(--border); height: auto; }
+
+  @media (max-width: 760px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .big-icon { display: none; }
+  }
+</style>

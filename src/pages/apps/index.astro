@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import AppCard from '../../components/AppCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { apps } from '../../data/apps';
+---
+<Base
+  title="アプリ一覧"
+  description="KOBU-Projectが開発・運営するアプリの一覧です。課題管理アプリOIKOMI、香川大学の履修検索サイト楽単ナビなど。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// Apps</div>
+      <h1 class="section-title">アプリ一覧</h1>
+      <p class="section-desc">KOBU-Projectが開発・運営しているアプリです。公開中のものはそのまま使えます。</p>
+    </div>
+  </section>
+
+  <section class="list">
+    <div class="container">
+      <div class="apps-grid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="こんなアプリ、作れますか？"
+    text="自社アプリと同じ体制で、業務用の小さなアプリやWebサービスの開発もお受けしています。"
+    type="app-dev"
+  />
+</Base>
+
+<style>
+  .list { padding-bottom: 112px; }
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  @media (max-width: 640px) {
+    .apps-grid { grid-template-columns: 1fr; }
+  }
+</style>

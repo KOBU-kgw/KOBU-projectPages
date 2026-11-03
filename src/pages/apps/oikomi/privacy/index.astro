@@ -1,0 +1,99 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { site } from '../../../../data/site';
+
+// TODO（公開前に必ず確認）: 【要確認】の箇所は、OIKOMI の pubspec.yaml と実装に合わせて書き換えてください。
+// 実際に使っていないサービスを書く／使っているサービスを書き漏らすと、ストア審査や法令上の問題になります。
+const enactedAt = '2026年11月3日'; // TODO: 公開日に合わせて変更
+---
+<Base
+  title="OIKOMI プライバシーポリシー"
+  description="課題管理アプリOIKOMIのプライバシーポリシーです。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label"><a href="/apps/oikomi/">// OIKOMI</a> / Privacy</div>
+      <h1 class="section-title">OIKOMI プライバシーポリシー</h1>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container prose">
+      <p>
+        {site.name}（以下「当方」）は、スマートフォンアプリ「OIKOMI」（以下「本アプリ」）における利用者の情報の取扱いについて、以下のとおり定めます。
+      </p>
+
+      <h2>1. 取得する情報</h2>
+      <p>本アプリは、次の情報を取得・利用することがあります。</p>
+      <ul>
+        <li>
+          <strong>利用者が入力した情報：</strong>課題名、締切日時などのタスク情報。
+          <span class="todo">【要確認】保存先が端末内のみか、サーバー（Firebase）にも送信するかを明記</span>
+        </li>
+        <li>
+          <strong>利用状況・端末に関する情報：</strong>
+          <span class="todo">【要確認】Firebase Analytics / Crashlytics を使っている場合、アプリの利用状況・クラッシュ情報・端末の種類・OSのバージョン等を記載。使っていなければ項目ごと削除</span>
+        </li>
+        <li>
+          <strong>購入に関する情報：</strong>アプリ内課金をご利用の場合、購入の有無（購入状態）を確認します。代金の支払いはApple（App Store）またはGoogle（Google Play）が処理するため、当方がクレジットカード番号などの決済情報を取得することはありません。
+          <span class="todo">【要確認】課金の有無と方式</span>
+        </li>
+      </ul>
+      <p>
+        本アプリは、利用者の氏名・メールアドレス・電話番号・位置情報・連絡先を取得しません。
+        <span class="todo">【要確認】ログイン機能がないこと</span>
+      </p>
+
+      <h2>2. 利用目的</h2>
+      <ul>
+        <li>本アプリの機能（課題の管理、ヤバさの判定、通知）を提供するため</li>
+        <li>不具合の調査・修正、機能改善のため</li>
+        <li>お問い合わせに対応するため</li>
+      </ul>
+
+      <h2>3. 通知について</h2>
+      <p>
+        本アプリは、課題の締切を知らせるために通知を使用します。通知は端末の設定からいつでもオフにできます。
+      </p>
+
+      <h2>4. 外部サービスの利用</h2>
+      <p>本アプリは、次の外部サービスを利用しています。各サービスにおける情報の取扱いは、それぞれのプライバシーポリシーをご確認ください。</p>
+      <ul>
+        <li>
+          Firebase（Google LLC）：<a href="https://firebase.google.com/support/privacy" rel="noopener">https://firebase.google.com/support/privacy</a>
+          <span class="todo">【要確認】使っている Firebase の機能名を列挙</span>
+        </li>
+      </ul>
+      <p>本アプリは広告を表示しません。<span class="todo">【要確認】AdMob 等の不使用</span></p>
+
+      <h2>5. 第三者提供</h2>
+      <p>当方は、法令に基づく場合を除き、利用者の同意なく情報を第三者に提供しません（前項の外部サービスによる処理を除きます）。</p>
+
+      <h2>6. 情報の削除</h2>
+      <p>
+        本アプリをアンインストールすると、端末内に保存されたデータは削除されます。
+        <span class="todo">【要確認】サーバーに保存している場合は、削除の依頼方法を記載</span>
+      </p>
+
+      <h2>7. 子どもの利用</h2>
+      <p>本アプリは主に大学生を対象としており、13歳未満の子どもを対象としたものではありません。</p>
+
+      <h2>8. 改定</h2>
+      <p>本ポリシーは、必要に応じて改定することがあります。重要な変更がある場合は、本ページまたは本アプリ内でお知らせします。</p>
+
+      <h2>9. お問い合わせ窓口</h2>
+      <p>
+        {site.name}（代表：{site.representative}）<br />
+        メール：<a href={`mailto:${site.email}`}>{site.email}</a><br />
+        フォーム：<a href="/contact/?type=app-support">お問い合わせフォーム</a>
+      </p>
+
+      <p class="meta">制定日：{enactedAt}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section-label a { color: inherit; text-decoration: none; }
+  .body { padding-bottom: 112px; }
+</style>

@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+const enactedAt = '2026年11月3日'; // TODO: 公開日に合わせて変更
+---
+<Base
+  title="プライバシーポリシー"
+  description="KOBU-Projectのウェブサイトおよびお問い合わせフォームにおける個人情報の取扱いについて。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// Privacy</div>
+      <h1 class="section-title">プライバシーポリシー</h1>
+      <p class="section-desc">
+        このページは、当サイト（{site.url.replace('https://', '')}）とお問い合わせフォームについての方針です。各アプリの取扱いは、アプリごとのプライバシーポリシーをご覧ください。
+      </p>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container prose">
+      <h2>1. 取得する情報</h2>
+      <p>お問い合わせフォームから、次の情報をお預かりします。</p>
+      <ul>
+        <li>会社名・団体名（任意）</li>
+        <li>お名前</li>
+        <li>メールアドレス</li>
+        <li>電話番号（任意）</li>
+        <li>お問い合わせの種類と内容</li>
+      </ul>
+
+      <h2>2. 利用目的</h2>
+      <ul>
+        <li>お問い合わせへの回答・ご連絡のため</li>
+        <li>ご相談いただいた内容の検討・お見積りのため</li>
+      </ul>
+      <p>上記以外の目的で利用することはありません。営業メールの一方的な配信なども行いません。</p>
+
+      <h2>3. 外部サービスの利用</h2>
+      <p>お問い合わせフォームの処理に、次のサービスを利用しています。</p>
+      <ul>
+        <li>
+          <strong>Cloudflare Workers / Turnstile（Cloudflare, Inc.）：</strong>フォームの受付と、迷惑な自動送信の防止に使用します。Turnstileは、ロボットによる送信かどうかを判定するために、ブラウザや端末に関する情報を処理します。
+          <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Cloudflareのプライバシーポリシー</a>
+        </li>
+        <li>
+          <strong>Resend：</strong>お問い合わせ内容を当方のメールアドレスへ届けるために使用します。
+          <a href="https://resend.com/legal/privacy-policy" rel="noopener">Resendのプライバシーポリシー</a>
+        </li>
+      </ul>
+
+      <h2>4. 第三者提供</h2>
+      <p>法令に基づく場合を除き、ご本人の同意なく個人情報を第三者に提供しません（前項の外部サービスによる処理を除きます）。</p>
+
+      <h2>5. 開示・訂正・削除</h2>
+      <p>お預かりした情報の開示・訂正・削除をご希望の場合は、下記の窓口までご連絡ください。ご本人であることを確認のうえ、対応します。</p>
+
+      <h2>6. 改定</h2>
+      <p>本ポリシーは、必要に応じて改定することがあります。改定後の内容は本ページに掲載した時点から有効になります。</p>
+
+      <h2>7. お問い合わせ窓口</h2>
+      <p>
+        {site.name}（代表：{site.representative}）<br />
+        メール：<a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+
+      <h2>アプリごとのプライバシーポリシー</h2>
+      <ul>
+        <li><a href="/apps/oikomi/privacy/">OIKOMI</a></li>
+      </ul>
+
+      <p class="meta">制定日：{enactedAt}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .body { padding-bottom: 112px; }
+</style>

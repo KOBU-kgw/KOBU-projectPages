@@ -1,0 +1,191 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site, inquiryTypes } from '../../data/site';
+
+const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '';
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
+const formReady = Boolean(endpoint && turnstileKey);
+---
+<Base
+  title="お問い合わせ"
+  description="アプリ開発・業務自動化のご相談、アプリについてのお問い合わせはこちらから。相談は無料です。"
+>
+  {formReady && (
+    <script slot="head" src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  )}
+
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// Contact</div>
+      <h1 class="section-title">お問い合わせ</h1>
+      <p class="section-desc">
+        アプリ開発・業務自動化のご相談は無料です。まだ要件が固まっていなくても、困りごとをそのままお送りください。通常、数日以内にご返信します。
+      </p>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container">
+      {formReady ? (
+        <form id="contact-form" class="form" data-endpoint={endpoint} novalidate>
+          <div class="field">
+            <label for="type">ご相談の種類 <span class="req">必須</span></label>
+            <select id="type" name="type" required>
+              {inquiryTypes.map((t) => <option value={t.value}>{t.label}</option>)}
+            </select>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="company">会社名・団体名 <span class="opt">任意</span></label>
+              <input id="company" name="company" type="text" autocomplete="organization" maxlength="100" />
+            </div>
+            <div class="field">
+              <label for="name">お名前 <span class="req">必須</span></label>
+              <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="email">メールアドレス <span class="req">必須</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
+            </div>
+            <div class="field">
+              <label for="phone">電話番号 <span class="opt">任意</span></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">ご相談内容 <span class="req">必須</span></label>
+            <textarea id="message" name="message" rows="8" required maxlength="5000"
+              placeholder="例：問い合わせメールの返信に毎日1時間かかっている。自動化できる部分があるか知りたい。"></textarea>
+          </div>
+
+          <!-- 迷惑な自動送信よけ。人には見えません。 -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <label class="agree">
+            <input type="checkbox" name="agree" required />
+            <span><a href="/privacy/" target="_blank">プライバシーポリシー</a>に同意します</span>
+          </label>
+
+          <div class="cf-turnstile" data-sitekey={turnstileKey} data-language="ja" data-theme="dark"></div>
+
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn btn-primary" type="submit">送信する <span class="arrow">→</span></button>
+        </form>
+      ) : (
+        <div class="fallback card">
+          <h2>メールでご連絡ください</h2>
+          <p>お問い合わせフォームは準備中です。お手数ですが、下記のアドレスまでメールでお送りください。</p>
+          <p><a class="mail" href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p class="hint">「ご相談の種類（アプリ開発／業務自動化／アプリについて／その他）」「お名前」「ご相談内容」を書いていただけるとスムーズです。</p>
+        </div>
+      )}
+
+      <div class="done card" id="contact-done" hidden>
+        <h2>送信しました</h2>
+        <p>お問い合わせありがとうございます。内容を確認のうえ、ご入力いただいたメールアドレスへご連絡します。</p>
+        <p class="hint">数日たっても返信がない場合は、お手数ですが {site.email} まで直接ご連絡ください。</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    // ?type=automation のようなリンクから来たら、種類を選んだ状態にする
+    const type = new URLSearchParams(location.search).get('type');
+    const select = form.elements.namedItem('type') as HTMLSelectElement;
+    if (type && [...select.options].some((o) => o.value === type)) select.value = type;
+
+    const status = form.querySelector('.status') as HTMLElement;
+    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const setStatus = (msg: string, error = false) => {
+      status.textContent = msg;
+      status.classList.toggle('error', error);
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        setStatus('入力内容をご確認ください。', true);
+        return;
+      }
+      const data = new FormData(form);
+      if (!data.get('cf-turnstile-response')) {
+        setStatus('「ロボットではありません」の確認が終わるまで少しお待ちください。', true);
+        return;
+      }
+
+      button.disabled = true;
+      setStatus('送信しています…');
+      try {
+        const res = await fetch(form.dataset.endpoint!, { method: 'POST', body: data });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.ok) throw new Error(body.error || '送信に失敗しました。');
+        form.hidden = true;
+        document.getElementById('contact-done')!.hidden = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        setStatus(`${(err as Error).message} 時間をおいて再度お試しいただくか、メールでご連絡ください。`, true);
+        // Turnstile のトークンは1回しか使えないので、作り直す
+        (window as any).turnstile?.reset();
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .body { padding-bottom: 112px; }
+  .form { max-width: 720px; display: grid; gap: 22px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .field { display: grid; gap: 8px; }
+  label { font-size: 14px; font-weight: 500; }
+  .req, .opt {
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+  .req { color: #fff; background: var(--blue-deep); }
+  .opt { color: var(--text-secondary); border: 1px solid var(--border); }
+  input[type='text'], input[type='email'], input[type='tel'], select, textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue-primary); }
+  textarea { resize: vertical; min-height: 160px; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .agree { display: flex; gap: 10px; align-items: center; font-weight: 400; }
+  .agree input { width: 18px; height: 18px; accent-color: var(--blue-primary); }
+  .status { font-size: 14px; color: var(--text-secondary); min-height: 1.5em; }
+  .status.error { color: var(--danger); }
+  .form .btn { justify-self: start; }
+
+  .fallback, .done { max-width: 720px; }
+  .fallback h2, .done h2 { font-size: 20px; margin-bottom: 12px; }
+  .fallback p + p, .done p + p { margin-top: 12px; }
+  .mail { font-family: var(--mono); font-size: 18px; }
+  .hint { font-size: 13px !important; color: var(--text-muted) !important; }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: 1fr; }
+    .form .btn { justify-self: stretch; }
+  }
+</style>

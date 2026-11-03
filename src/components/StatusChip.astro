@@ -1,0 +1,32 @@
+---
+import type { AppStatus } from '../data/apps';
+interface Props { status: AppStatus }
+const { status } = Astro.props;
+---
+<span class={`chip chip-${status.kind}`}><span class="dot" aria-hidden="true"></span>{status.label}</span>
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 11px;
+    white-space: nowrap;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); }
+  .chip-public { color: var(--green); border-color: rgba(52, 211, 153, 0.3); }
+  .chip-public .dot { background: var(--green); }
+  .chip-soon { color: var(--amber); border-color: rgba(251, 191, 36, 0.3); }
+  .chip-soon .dot { background: var(--amber); }
+  .chip-members { color: var(--violet); border-color: rgba(167, 139, 250, 0.3); }
+  .chip-members .dot { background: var(--violet); }
+  .chip-tester { color: var(--cyan); border-color: rgba(34, 211, 238, 0.3); }
+  .chip-tester .dot { background: var(--cyan); }
+</style>
