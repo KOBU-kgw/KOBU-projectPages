@@ -32,6 +32,7 @@ const features = [
     <div class="container hero">
       <div>
         <div class="section-label"><a href="/apps/">// Apps</a> / 楽単ナビ</div>
+        {app.icon && <img class="app-icon" src={app.icon} alt="" width="72" height="72" />}
         <p class="unofficial">（非公式）香川大学</p>
         <h1>楽単ナビ</h1>
         <p class="lead">香大生へ。<br />前期、何取った？</p>
@@ -138,6 +139,7 @@ const features = [
     gap: 56px;
     align-items: center;
   }
+  .app-icon { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 16px; }
   .unofficial { font-size: 13px; color: var(--text-secondary); letter-spacing: 1px; }
   h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
   .lead { font-size: clamp(18px, 2.6vw, 24px); font-weight: 500; line-height: 1.6; margin-bottom: 16px; }
