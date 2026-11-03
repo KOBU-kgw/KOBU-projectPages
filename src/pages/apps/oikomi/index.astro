@@ -10,22 +10,28 @@ const screens = app.screenshots ?? [];
 const features = [
   {
     num: '01',
-    title: '3ステップで「ヤバさ」を数値化',
-    text: '課題名を入れ、所要時間と「やりたくなさ」を選ぶだけ。残り日数だけでは見えない心理的なヤバさを、独自のヤバさ指数（TGL）で計算します。',
+    title: '「所要時間」と「やりたくなさ」を入れるだけ',
+    text: '課題を追加するときは、所要時間とやりたくなさ（1〜10）をダイヤルで選ぶだけ。課題タイプはレポート・小テスト勉強・期末テストなどから選べます。',
   },
   {
     num: '02',
-    title: '5段階のラベルでひと目でわかる',
-    text: '平和 → そのうちやろ → そろそろ現実 → 逃げ場なし → 戦争。今どの課題が危ないかがすぐわかります。',
+    title: '一覧は自動で「ヤバさ」順',
+    text: '独自指標「TGL（Task Gotta Level）」が、所要時間・やりたくなさ・締切までの余裕から本当のヤバさを計算。まだ平和 → そのうちやろ → そろそろ現実 → 逃げ場なし → 戦争 の5段階で表示します。',
   },
   {
     num: '03',
-    title: '状態が変わったら通知',
-    text: '課題のヤバさの段階が上がったら通知でお知らせ。データは端末の中だけに保存され、外部に送られることはありません。',
+    title: '必要なときだけ通知',
+    text: '決まった時刻ではなく、課題の状態が変わったタイミングで通知。「気づいたら手遅れ」を防ぎます。タップで編集、左スワイプで完了、間違えても5秒以内なら取り消せます。',
   },
 ];
 
+const points = ['完全無料', 'アカウント不要', 'オフラインで動作', 'データは端末内だけ'];
+
 const faqs = [
+  {
+    q: '料金はかかりますか？',
+    a: '無料で使えます。アカウントの登録も不要です。',
+  },
   {
     q: 'Android版はありますか？',
     a: '現在テスト中で、近日公開予定です。公開時はこのページでお知らせします。',
@@ -42,7 +48,7 @@ const faqs = [
 ---
 <Base
   title="OIKOMI｜課題の“本当のヤバさ”がわかるタスク管理アプリ"
-  description="「あと3日あるし…」その油断が徹夜地獄に。OIKOMIは、締切までの心理的なヤバさを独自指標TGLで数値化し、5段階のラベルで知らせる大学生向けタスク管理アプリです。"
+  description="「あと3日あるし…」その油断が徹夜地獄に。OIKOMIは、所要時間とやりたくなさから課題の心理的なヤバさを計算し、5段階で知らせる大学生向けの課題管理アプリです。完全無料・アカウント不要。"
 >
   <section class="page-head app-hero">
     <div class="container hero-inner">
@@ -53,8 +59,9 @@ const faqs = [
           「あと3日あるし…」<br />その油断が、あなたを徹夜地獄へ。
         </p>
         <p class="section-desc">
-          大学生の「本当にヤバい課題」を瞬時に判定するタスク管理アプリ。締切までの心理的なヤバさを独自指標「TGL」で数値化し、5段階のラベルで知らせます。
+          残り時間だけを見ていると「まだ1週間ある」と思ってしまう。でも、時間がかかって、しかもやりたくない課題なら、今動かないと本当にまずい。OIKOMIは課題を「心理的なヤバさ」で並べ替える、大学生のための課題管理アプリです。
         </p>
+        <ul class="points">{points.map((p) => <li>{p}</li>)}</ul>
         <div class="chips">{app.statuses.map((s) => <StatusChip status={s} />)}</div>
         <div class="store">
           <StoreLinks links={app.links} name={app.name} />
@@ -143,6 +150,8 @@ const faqs = [
   }
   .lead { font-size: clamp(18px, 2.6vw, 24px); font-weight: 500; line-height: 1.6; margin-bottom: 16px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .points { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; font-size: 13px; }
+  .points li::before { content: '✓ '; color: var(--blue-light); }
   .store { margin-top: 20px; }
   .big-icon { width: 160px; height: 160px; border-radius: 36px; }
   .big-icon.placeholder {

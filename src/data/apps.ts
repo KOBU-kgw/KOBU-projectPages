@@ -35,9 +35,9 @@ export const apps: App[] = [
   {
     slug: 'oikomi',
     name: 'OIKOMI',
-    summary: '課題の「本当にヤバさ」を数値で知らせるタスク管理アプリ',
+    summary: '課題を「心理的なヤバさ」順に並べる、大学生のための課題管理アプリ',
     description:
-      '「あと3日あるし…」その油断が、あなたを徹夜地獄へ。所要時間と「やりたくなさ」から課題のヤバさ指数を計算し、「平和」から「戦争」までの5段階で知らせます。データはすべて端末内に保存します。',
+      '「あと3日あるし…」その油断が、あなたを徹夜地獄へ。所要時間と「やりたくなさ」から課題の本当のヤバさを計算し、「まだ平和」から「戦争」までの5段階で知らせます。完全無料・アカウント不要。',
     statuses: [
       { kind: 'public', label: '公開中（iOS）' },
       { kind: 'soon', label: 'Android 近日公開' },
@@ -45,12 +45,14 @@ export const apps: App[] = [
     platforms: ['iOS', 'Android'],
     stack: ['Flutter', 'iOS', 'Android'],
     links: {
-      // TODO: App Store Connect の Apple ID がわかったら https://apps.apple.com/jp/app/id<Apple ID> を入れる
-      appStore: '',
+      appStore: 'https://apps.apple.com/jp/app/oikomi/id6761453387',
       googlePlay: '',
     },
     detailPage: '/apps/oikomi/',
     privacyPage: '/apps/oikomi/privacy/',
+    icon: '/apps/oikomi/icon.webp',
+    // TODO: スクリーンショットを public/apps/oikomi/ に置いたらパスを追加
+    screenshots: [],
     featured: true,
   },
   {
