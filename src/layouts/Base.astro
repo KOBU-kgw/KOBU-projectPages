@@ -18,8 +18,10 @@ const path = Astro.url.pathname;
 
 const nav = [
   { href: '/apps/', label: 'Apps' },
+  { href: '/works/', label: 'Works' },
   { href: '/#capabilities', label: 'Services' },
-  { href: '/#about', label: 'About' },
+  { href: '/about/', label: 'About' },
+  { href: '/news/', label: 'News' },
   { href: '/contact/', label: 'Contact' },
 ];
 
@@ -114,8 +116,12 @@ const stack = [
         </div>
         <ul class="footer-links">
           <li><a href="/apps/">アプリ</a></li>
+          <li><a href="/works/">開発事例</a></li>
+          <li><a href="/about/">KOBU-Projectについて</a></li>
+          <li><a href="/news/">お知らせ</a></li>
           <li><a href="/contact/">お問い合わせ</a></li>
           <li><a href="/privacy/">プライバシーポリシー</a></li>
+          <li><a href="/terms/">利用規約</a></li>
           {site.social.github && <li><a href={site.social.github} rel="noopener">GitHub</a></li>}
           {site.social.x && <li><a href={site.social.x} rel="noopener">X</a></li>}
           {site.social.line && <li><a href={site.social.line} rel="noopener">LINE</a></li>}
@@ -179,7 +185,7 @@ const stack = [
     letter-spacing: 3px;
   }
 
-  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
   .nav-links a:not(.btn) {
     font-family: var(--mono);
     font-size: 12px;
@@ -215,7 +221,7 @@ const stack = [
   .site-nav:global(.open) .nav-toggle span:first-child { transform: translateY(4px) rotate(45deg); }
   .site-nav:global(.open) .nav-toggle span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
-  @media (max-width: 760px) {
+  @media (max-width: 980px) {
     .site-nav { padding: 12px 20px; flex-wrap: wrap; }
     .nav-toggle { display: block; }
     nav { width: 100%; }

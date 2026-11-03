@@ -1,0 +1,114 @@
+---
+import Base from '../../layouts/Base.astro';
+import Logo from '../../components/Logo.astro';
+import { site } from '../../data/site';
+
+const pillars = [
+  { icon: '</>', title: 'フルスタック開発', text: 'iOS / Flutter / Web。フロントからバックエンド、インフラまで一貫して設計・実装します。' },
+  { icon: '⇄', title: '地域 × テクノロジー', text: '大学・地域コミュニティの課題をソフトウェアで解決する。技術を届ける先を常に意識します。' },
+  { icon: '▲', title: 'プロダクト志向', text: '作って終わりではなく、リリースし、ユーザーに届け、改善し続ける。動くものが全て。' },
+];
+
+const activities = [
+  '香川大学起業部での活動',
+  'IVS2026（京都）に参加',
+  '能登・熊本での被災地支援',
+];
+
+const skills = ['Swift / SwiftUI', 'Flutter', 'React', 'Astro', 'Firebase', 'Cloudflare', 'Python'];
+---
+<Base
+  title="KOBU-Projectについて"
+  description="KOBU-Projectは、香川を拠点にアプリの企画・開発・運営を行うプロジェクトです。代表あっきー（香川大学農学部）のプロフィールと運営者情報。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// About</div>
+      <h1 class="section-title">KOBU-Projectについて</h1>
+      <p class="section-desc">
+        香川を拠点に、iOSアプリ・Webサービス・クロスプラットフォームアプリの企画・設計・開発を行っています。アイデアをプロダクトとして形にし、地域のつながりをテクノロジーで再設計することを目指しています。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// Values</div>
+      <h2 class="section-title">大事にしていること</h2>
+      <div class="grid">
+        {pillars.map((p) => (
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">{p.icon}</div>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container profile">
+      <div class="avatar" aria-hidden="true"><Logo size={72} glow /></div>
+      <div>
+        <div class="section-label">// Founder</div>
+        <h2 class="section-title">代表　{site.representative}</h2>
+        <p class="affiliation">{site.representativeAffiliation}</p>
+        <p class="intro">
+          地方から「あったらいいな」をカタチに。小さく始めて試しながら、農業×テックの越境で活動しています。あっきーと呼んでもらえたらうれしいです。
+        </p>
+        <p class="intro">
+          農学部で学びながら、大学生活の「ちょっと困った」を解決するアプリをつくっています。学生ならではの機動力で、まず動くものを出し、使ってもらいながら改善するのが得意です。
+        </p>
+
+        <h3 class="sub">活動</h3>
+        <ul class="list">{activities.map((a) => <li>{a}</li>)}</ul>
+
+        <h3 class="sub">主な技術</h3>
+        <div class="tags">{skills.map((s) => <span class="tag">{s}</span>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// Company</div>
+      <h2 class="section-title">運営者情報</h2>
+      <dl class="facts">
+        <dt>屋号</dt><dd>{site.name}</dd>
+        <dt>代表</dt><dd>{site.representative}（{site.representativeAffiliation}）</dd>
+        <dt>開業</dt><dd>{site.foundedLabel}</dd>
+        <dt>拠点</dt><dd>{site.region}</dd>
+        <dt>事業</dt><dd>アプリの企画・開発・運営／AIを活用した業務自動化／受託開発</dd>
+        <dt>連絡先</dt><dd><a href="/contact/">お問い合わせフォーム</a>／<a href={`mailto:${site.email}`}>{site.email}</a></dd>
+      </dl>
+      <div class="section-foot">
+        <a class="btn btn-primary" href="/apps/">アプリを見る <span class="arrow">→</span></a>
+        <a class="btn btn-secondary" href="/works/">開発事例を見る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .profile { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; }
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+  .affiliation { color: var(--text-secondary); margin-top: -8px; margin-bottom: 20px; }
+  .intro { color: var(--text-secondary); font-size: 15px; max-width: 640px; line-height: 2; }
+  .intro + .intro { margin-top: 12px; }
+  .sub { font-size: 15px; font-weight: 500; margin: 32px 0 12px; }
+  .list { padding-left: 1.2em; color: var(--text-secondary); font-size: 14px; }
+  .list li + li { margin-top: 4px; }
+  @media (max-width: 640px) {
+    .profile { grid-template-columns: 1fr; gap: 24px; }
+    .avatar { width: 96px; height: 96px; }
+  }
+</style>

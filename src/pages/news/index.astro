@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import { news, roadmap } from '../../data/news';
+
+const fmt = (d: string) => d.replaceAll('-', '.');
+---
+<Base
+  title="お知らせ"
+  description="KOBU-Projectのお知らせ・更新履歴と、アプリの今後の予定です。"
+>
+  <section class="page-head">
+    <div class="container">
+      <div class="section-label">// News</div>
+      <h1 class="section-title">お知らせ</h1>
+      <p class="section-desc">アプリの公開・更新や、KOBU-Projectの活動をお知らせします。</p>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="container">
+      <ol class="news">
+        {news.map((n) => (
+          <li>
+            <time datetime={n.date}>{fmt(n.date)}</time>
+            <span class="cat">{n.category}</span>
+            <div class="content">
+              <h2>{n.title}</h2>
+              {n.body && <p>{n.body}</p>}
+              {n.link && <a href={n.link.href}>{n.link.label} →</a>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-label">// Roadmap</div>
+      <h2 class="section-title">今後の予定</h2>
+      <p class="section-desc">予定は変わることがあります。決まり次第このページでお知らせします。</p>
+      <ul class="roadmap">
+        {roadmap.map((r) => (
+          <li class={r.status}>
+            <span class="when">{r.when}</span>
+            <span class="title">{r.title}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .body { padding-bottom: 96px; }
+  .news { list-style: none; max-width: 820px; border-top: 1px solid var(--border); }
+  .news li {
+    display: grid;
+    grid-template-columns: 110px 90px 1fr;
+    gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  time { font-family: var(--mono); font-size: 13px; color: var(--text-muted); }
+  .cat {
+    font-size: 11px;
+    color: var(--blue-light);
+    border: 1px solid rgba(74, 108, 247, 0.3);
+    border-radius: 999px;
+    padding: 2px 10px;
+    justify-self: start;
+  }
+  .content h2 { font-size: 16px; font-weight: 500; line-height: 1.6; }
+  .content p { font-size: 14px; color: var(--text-secondary); margin-top: 6px; }
+  .content a { display: inline-block; font-size: 13px; margin-top: 8px; text-decoration: none; }
+
+  .roadmap { list-style: none; margin-top: 40px; max-width: 640px; display: grid; gap: 12px; }
+  .roadmap li {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .when { font-size: 12px; font-weight: 500; min-width: 56px; color: var(--text-muted); }
+  .done .when { color: var(--green); }
+  .next .when { color: var(--amber); }
+  .title { font-size: 15px; }
+
+  @media (max-width: 640px) {
+    .news li { grid-template-columns: auto 1fr; gap: 6px 12px; }
+    .content { grid-column: 1 / -1; }
+  }
+</style>
