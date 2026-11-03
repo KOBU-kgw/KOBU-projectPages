@@ -1,0 +1,239 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import AppCard from '../components/AppCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { featuredApps, publicAppCount } from '../data/apps';
+import { site } from '../data/site';
+
+const capabilities = [
+  {
+    icon: '▢',
+    title: 'iOS / Android / Web アプリ',
+    text: 'SwiftUI・Flutter・Reactで、スマホアプリからWebサービスまで。企画からストア公開・運用まで一貫して担当します。',
+  },
+  {
+    icon: '⚙',
+    title: 'AI・業務自動化',
+    text: '問い合わせ対応、日報や見積書づくり、社内の情報探しなど、毎日の「手作業」をAIとLINE・フォーム連携で減らします。',
+  },
+  {
+    icon: '⇄',
+    title: 'バックエンド・インフラ',
+    text: 'Firebase・Cloudflare Workersなどで、小さく始めて運用費を抑えた仕組みをつくります。',
+  },
+];
+
+const steps = [
+  { title: '無料相談', text: '困りごとを伺います' },
+  { title: '課題整理', text: '自動化できる所を洗い出し' },
+  { title: '試作', text: '小さく作って試す' },
+  { title: '導入', text: '現場で使える形に' },
+  { title: '月額保守', text: '改善と運用を継続' },
+];
+
+const pillars = [
+  { icon: '</>', title: 'フルスタック開発', text: 'iOS / Flutter / Web。フロントからバックエンド、インフラまで一貫して設計・実装します。' },
+  { icon: '⇄', title: '地域 × テクノロジー', text: '大学・地域コミュニティの課題をソフトウェアで解決する。技術を届ける先を常に意識します。' },
+  { icon: '▲', title: 'プロダクト志向', text: '作って終わりではなく、リリースし、ユーザーに届け、改善し続ける。動くものが全て。' },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="hero-logo"><Logo size={96} glow /></div>
+    <h1>KOBU<span class="dot">.</span></h1>
+    <p class="tagline">{site.tagline}</p>
+    <p class="subcopy">{site.subcopy.split(/(?<=で)/).map((part) => <span class="nw">{part}</span>)}</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="/apps/">アプリを見る <span class="arrow">→</span></a>
+      <a class="btn btn-secondary" href="/contact/?type=automation">無料で相談する <span class="arrow">→</span></a>
+    </div>
+    <ul class="hero-facts" aria-label="KOBU-Projectについて">
+      <li><strong>{publicAppCount}</strong><span>公開中のアプリ</span></li>
+      <li><strong>2026.07</strong><span>開業</span></li>
+      <li><strong>香川</strong><span>拠点</span></li>
+    </ul>
+  </section>
+
+  <section class="section" id="apps">
+    <div class="container fade-in">
+      <div class="section-label">// Apps</div>
+      <h2 class="section-title">つくっているアプリ</h2>
+      <p class="section-desc">大学生活や香川の暮らしの「ちょっと困った」から生まれたアプリです。</p>
+      <div class="apps-grid">
+        {featuredApps.map((app) => <AppCard app={app} showScreens={false} />)}
+      </div>
+      <div class="section-foot">
+        <a class="btn btn-secondary" href="/apps/">すべてのアプリを見る <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="capabilities">
+    <div class="container fade-in">
+      <div class="section-label">// Services</div>
+      <h2 class="section-title">中小企業の“手作業”を、<br class="br-sp" />AIとアプリで減らします</h2>
+      <p class="section-desc">
+        自社アプリの開発・運用で培った技術で、業務の自動化や小さな業務アプリの開発をお手伝いします。料金は内容に合わせて「初期費用＋月額保守」でお見積りします。
+      </p>
+      <div class="grid">
+        {capabilities.map((c) => (
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">{c.icon}</div>
+            <h3>{c.title}</h3>
+            <p>{c.text}</p>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="steps-title">進め方</h3>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <strong>{s.title}</strong>
+            <span class="step-text">{s.text}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="section-foot">
+        <a class="btn btn-primary" href="/contact/?type=automation">無料相談はこちら <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container fade-in">
+      <div class="section-label">// About</div>
+      <h2 class="section-title">KOBU-Projectとは</h2>
+      <p class="section-desc">
+        香川を拠点に、iOSアプリ・Webサービス・クロスプラットフォームアプリの企画・設計・開発を行っています。学生ならではの機動力で、アイデアをすばやくプロダクトにし、地域のつながりをテクノロジーで再設計することを目指しています。
+      </p>
+      <div class="grid">
+        {pillars.map((p) => (
+          <div class="card">
+            <div class="card-icon" aria-hidden="true">{p.icon}</div>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+      <dl class="facts">
+        <dt>屋号</dt><dd>{site.name}</dd>
+        <dt>代表</dt><dd>{site.representative}</dd>
+        <dt>開業</dt><dd>{site.foundedLabel}</dd>
+        <dt>拠点</dt><dd>{site.region}</dd>
+        <dt>事業</dt><dd>アプリの企画・開発・運営／AIを活用した業務自動化／受託開発</dd>
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 24px 80px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(640px, 100vw);
+    aspect-ratio: 1;
+    background: radial-gradient(circle, rgba(74, 108, 247, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero > * { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero > * { opacity: 1; }
+  }
+  .hero-logo { margin-bottom: 40px; animation-delay: 0.1s; }
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    letter-spacing: 12px;
+    margin-bottom: 20px;
+    animation-delay: 0.25s;
+  }
+  h1 .dot { color: var(--blue-primary); }
+  .nw { display: inline-block; }
+  .tagline {
+    font-size: clamp(18px, 2.6vw, 24px);
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    animation-delay: 0.4s;
+  }
+  .subcopy {
+    font-size: clamp(14px, 1.8vw, 16px);
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+    animation-delay: 0.5s;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; animation-delay: 0.65s; }
+  .hero-facts {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+    margin-top: 56px;
+    animation-delay: 0.8s;
+  }
+  .hero-facts li { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .hero-facts strong { font-family: var(--mono); font-size: 20px; color: var(--text-primary); }
+  .hero-facts span { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .steps-title { font-size: 16px; font-weight: 500; margin-top: 64px; }
+  .steps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .steps li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 2px solid var(--blue-deep);
+    padding-top: 14px;
+  }
+  .steps .num { font-family: var(--mono); font-size: 11px; color: var(--blue-primary); }
+  .steps strong { font-size: 15px; font-weight: 500; }
+  .step-text { font-size: 12px; color: var(--text-secondary); }
+
+  .br-sp { display: none; }
+
+  @media (max-width: 760px) {
+    .steps { grid-template-columns: 1fr; }
+    .steps li { flex-direction: row; align-items: baseline; gap: 12px; padding-top: 10px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 100px 20px 60px; }
+    h1 { letter-spacing: 6px; }
+    .hero-cta { width: 100%; flex-direction: column; }
+    .hero-facts { gap: 28px; }
+    .apps-grid { grid-template-columns: 1fr; }
+    .br-sp { display: inline; }
+  }
+</style>

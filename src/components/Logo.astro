@@ -1,0 +1,21 @@
+---
+interface Props {
+  size?: number;
+  glow?: boolean;
+}
+const { size = 28, glow = false } = Astro.props;
+---
+<svg width={size} height={size} viewBox="16 3 80 114" fill="none" aria-hidden="true">
+  <line x1="30" y1="15" x2="30" y2="105" stroke="#4a6cf7" stroke-width="3" />
+  <line x1="30" y1="58" x2="90" y2="15" stroke="#6b8cff" stroke-width="3" />
+  <line x1="30" y1="58" x2="90" y2="105" stroke="#6b8cff" stroke-width="3" />
+  <line x1="55" y1="40" x2="70" y2="72" stroke="#3555d1" stroke-width="2" opacity="0.5" />
+  <circle cx="30" cy="15" r="6" fill="#4a6cf7" />
+  <circle cx="30" cy="58" r="7" fill="#4a6cf7" />
+  <circle cx="30" cy="105" r="6" fill="#4a6cf7" />
+  <circle cx="90" cy="15" r="6" fill="#6b8cff" />
+  <circle cx="90" cy="105" r="6" fill="#6b8cff" />
+  <circle cx="55" cy="40" r="4" fill="#3555d1" opacity="0.6" />
+  <circle cx="70" cy="72" r="4" fill="#3555d1" opacity="0.6" />
+  {glow && <circle cx="30" cy="58" r="12" fill="#4a6cf7" opacity="0.15" />}
+</svg>

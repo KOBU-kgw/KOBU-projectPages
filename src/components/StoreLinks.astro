@@ -1,0 +1,39 @@
+---
+import type { AppStoreLinks } from '../data/apps';
+interface Props { links: AppStoreLinks; name: string }
+const { links, name } = Astro.props;
+const items = [
+  links.appStore && { href: links.appStore, top: 'Download on the', label: 'App Store', aria: `${name}をApp Storeで入手` },
+  links.googlePlay && { href: links.googlePlay, top: 'GET IT ON', label: 'Google Play', aria: `${name}をGoogle Playで入手` },
+  links.web && { href: links.web, top: 'OPEN IN', label: 'ブラウザで開く', aria: `${name}をブラウザで開く` },
+].filter(Boolean) as { href: string; top: string; label: string; aria: string }[];
+---
+{items.length > 0 && (
+  <div class="store-links">
+    {items.map((i) => (
+      <a class="store" href={i.href} rel="noopener" aria-label={i.aria}>
+        <small>{i.top}</small>
+        <strong>{i.label}</strong>
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .store-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .store {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-decoration: none;
+    color: var(--text-primary);
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 7px 16px 8px;
+    transition: border-color 0.2s;
+  }
+  .store:hover { border-color: var(--blue-primary); }
+  .store small { font-size: 9px; letter-spacing: 1px; color: var(--text-secondary); }
+  .store strong { font-size: 15px; font-weight: 500; }
+</style>
